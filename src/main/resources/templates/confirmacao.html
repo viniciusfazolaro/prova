@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmação</title>
+</head>
+<body>
+<h1>Pedido Realizado com Sucesso!</h1>
+
+<p><strong>Cliente:</strong> <span th:text="${order.customerName}"></span></p>
+<p><strong>Endereço:</strong> <span th:text="${order.address}"></span></p>
+<p><strong>Telefone:</strong> <span th:text="${order.phoneNumber}"></span></p>
+<p><strong>Doce Escolhido:</strong> <span th:text="${order.candy.name}"></span></p>
+<p><strong>Forma de Pagamento:</strong> <span th:text="${order.paymentMethod}"></span></p>
+
+<a th:href="@{/order}">Fazer novo pedido</a>
+</body>
+</html>
