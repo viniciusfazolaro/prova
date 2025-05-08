@@ -31,14 +31,11 @@ public class OrderController {
     @GetMapping("/{candyId}")
     public String renderPage(@PathVariable Long candyId, Model model) {
         Candy candy = candyRepository.findById(candyId);
-        if (candy == null) {
-            return "redirect:/"; // ou outra página de erro
-        }
 
         List<String> paymentMethods = List.of("Paypal", "Cartão de crédito", "Cartão de débito", "PIX");
 
         Order order = new Order();
-        order.setCandy(candy); // pré-define o doce
+        order.setCandy(candy);
 
         model.addAttribute("order", order);
         model.addAttribute("paymentMethods", paymentMethods);
