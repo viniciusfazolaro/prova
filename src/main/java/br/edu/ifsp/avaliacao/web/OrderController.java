@@ -7,6 +7,7 @@ import br.edu.ifsp.avaliacao.persistence.OrderRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -27,27 +28,29 @@ public class OrderController {
         this.orderRepository = orderRepository;
     }
 
-    @GetMapping
-    public String renderPage(Model model) {
-        List<String> paymentMethods = new ArrayList<>();
-        List<Candy> candies = new ArrayList<>();
-        candyRepository.findAll().forEach(candies::add);
-        paymentMethods.add("Paypal");
-        paymentMethods.add("Cartão de crédito");
-        paymentMethods.add("Cartão de débito");
-        paymentMethods.add("PIX");
+    @GetMapping("/{candyId}")
+    public String renderPage(@PathVariable Long candyId, Model model) {
+        Candy candy = candyRepository.findById(candyId);
+        if (candy == null) {
+            return "redirect:/"; // ou outra página de erro
+        }
 
-        model.addAttribute("order", new Order());
+        List<String> paymentMethods = List.of("Paypal", "Cartão de crédito", "Cartão de débito", "PIX");
+
+        Order order = new Order();
+        order.setCandy(candy); // pré-define o doce
+
+        model.addAttribute("order", order);
         model.addAttribute("paymentMethods", paymentMethods);
-        model.addAttribute("candies", candies);
 
-        return "home";
+        return "order";
     }
+
 
     @PostMapping
     public String processOrder(Order order) {
         orderRepository.save(order);
         order.setCandy(candyRepository.findById(order.getCandy().getId()));
-        return "confirmacao";
+        return "confirm";
     }
 }

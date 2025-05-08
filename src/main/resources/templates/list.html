@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Pedidos</title>
+    <title>Lista de Doces</title>
     <style>
         table {
-            width: 60%;
+            width: 80%;
             border-collapse: collapse;
             margin: 20px auto;
         }
@@ -17,10 +17,21 @@
         th {
             background-color: #eee;
         }
+        .buy-button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .buy-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
-<h1 style="text-align:center;">Lista de Pedidos</h1>
+<h1 style="text-align:center;">Lista de Doces</h1>
 <table>
     <thead>
     <tr>
@@ -28,14 +39,20 @@
         <th>Nome</th>
         <th>Descrição</th>
         <th>Preço</th>
+        <th>Ação</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="candy : ${candies}">
         <td th:text="${candy.id}"></td>
-        <td th:text="${candy.name}">N</td>
+        <td th:text="${candy.name}"></td>
         <td th:text="${candy.description}"></td>
         <td th:text="${candy.price}"></td>
+        <td>
+            <a th:href="@{'/order/' + ${candy.id}}">
+                <button class="buy-button">Comprar</button>
+            </a>
+        </td>
     </tr>
     </tbody>
 </table>

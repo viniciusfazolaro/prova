@@ -7,6 +7,8 @@
 <body>
 <h1>Fazer Pedido</h1>
 <form th:action="@{/order}" th:object="${order}" method="post">
+    <input type="hidden" th:field="*{candy.id}" />
+
     <label>Nome do cliente:</label><br>
     <input type="text" th:field="*{customerName}" /><br><br>
 
@@ -15,11 +17,6 @@
 
     <label>Telefone:</label><br>
     <input type="text" th:field="*{phoneNumber}" /><br><br>
-
-    <label>Doce:</label><br>
-    <select th:field="*{candy.id}">
-        <option th:each="c : ${candies}" th:value="${c.id}" th:text="${c.name}"></option>
-    </select><br><br>
 
     <label>Método de pagamento:</label><br>
     <select th:field="*{paymentMethod}">
